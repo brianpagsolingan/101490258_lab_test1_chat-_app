@@ -9,8 +9,18 @@ function App() {
   const [username, setUsername] = useState(localStorage.getItem('username') || null);
   const [room, setRoom] = useState(null);
   const [page, setPage] = useState('login'); // 'login' or 'signup'
-
+  
   const rooms = ['devops', 'cloud computing', 'covid19', 'sports', 'movies'];
+
+  const handleLogout = () => {
+    setUsername(null);
+    setRoom(null);
+    setPage('login');
+  };
+
+  const handleLeaveRoom = () => {
+    setRoom(null);
+  };
 
   if (!username) {
     return (
@@ -44,7 +54,12 @@ function App() {
   return (
     <div className="App">
       {room ? (
-        <Chat username={username} room={room} />
+        <Chat 
+          username={username} 
+          room={room} 
+          onLeaveRoom={handleLeaveRoom}
+          onLogout={handleLogout}
+        />
       ) : (
         <RoomSelector rooms={rooms} onSelectRoom={setRoom} />
       )}
